@@ -1,6 +1,7 @@
 # shellcodeWin
 
 @echo off
+
 echo "compilando"
 timeout 2
 del Fw_protect.obj
