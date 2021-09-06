@@ -1,3 +1,5 @@
+;////code by Belial Grimoire////
+
 global _s
 section .text
 
