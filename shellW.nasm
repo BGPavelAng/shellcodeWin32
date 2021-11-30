@@ -212,7 +212,8 @@ xor ecx, ecx
 mov ecx, esp
 
 
-Código completo.
+Código completo en...
+Complete code on...
 https://www.patreon.com/BGPavelAng
 Ayudame a seguir haciendo más de esto.
 
