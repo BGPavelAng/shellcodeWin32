@@ -213,7 +213,6 @@ mov ecx, esp
 
 
 Código completo en...
-Code complete on...
 https://www.patreon.com/BGPavelAng
 Ayudame a seguir haciendo más de esto.
 
